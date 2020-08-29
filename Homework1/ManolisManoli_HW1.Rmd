@@ -120,8 +120,8 @@ b = c(1,2,6)
 round(GaussJordan(A,b),2)
 ```
    
-Github:
+Github (both PDF and RMarkdown):
 
-https://github.com/chilleundso/Data606/blob/master/FinalProject/Manolis%20Manoli%20Final%20Project.Rmd
+https://github.com/chilleundso/Data605_CompMath/tree/master/Homework1
     
 
