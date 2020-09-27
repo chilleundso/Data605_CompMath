@@ -1,0 +1,106 @@
+---
+title: "DATA 605 - Homework 5"
+author: "Manolis Manoli"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+---
+```{r loading-libraries, echo=TRUE, results='hide', warning=FALSE, message=FALSE}
+library(ggplot2)
+library(psych)
+library(dplyr)
+library(knitr)
+library(tidyr)
+```
+
+
+## Problem Set 1
+
+#### 1)
+
+Choose independently two numbers B and C at random from the interval [0, 1] with uniform density. 
+
+Prove that B and C are proper probability distributions.
+
+Since this is a continuous distribution we cannot define p(x) for x in [0, 1]. 
+the prob density function for U(a,b) f(x) is:
+
+f(x) = 1/(b-a) for x in [a,b]
+
+f(x) = 0 for x NOT in [a,b]
+
+in our case 1/(b-a) = 1
+
+Integral of f(x) = 1 between 0 and 1:
+
+F(x)=x
+
+F(1)-F(0)=1-0=1
+
+
+#### 2)
+
+Note that the point (B,C) is then chosen at random in the unit square.
+
+Find the probability that
+
+### a) B + C < 1/2
+
+
+since they are independent B+C is equivalent to a U[0,2] distribution. Clearly the probability of a value less than 1/2 in a U[0,2] is 1/4
+
+### b) BC < 1/2
+
+F_XY(z) = P[XY<z]
+
+= int[x=0 to 1] P[Y<z/x] f_X(x)dx
+
+= int[x=0 to z] dx + int[x=z to 1] z/x dx
+
+= z - z log(z)
+
+therefore the density is:
+
+f(z) = -log(z)
+
+f(1/2) = -log(1/2) ~= 0.69
+
+
+ 
+### c) abs(B-C) <1/2
+
+if we think about it graphically, where we use a 2dim graph an plot B along the x-axis and C along the y-axis. This results in a 2 dim 1x1 box of possile combinations. If we can find the area where all combination of B and C for which abs(B-C) <1/2 we have the solution. 
+
+The line x=y will result in B-C = 0 which clearly satisfies the condition. No from any point along this main diagonal we can increase or decrease either B or C by up to 1/2. this creates 2 parralel lines along our main diagonal x=y: x=y-1/2 and x=y+1/2.
+
+within these two graphs is our area of possible combinations that satisfies the condition. 
+
+The opposite of this area are the two triangles:
+
+(0,1/2),(1/2,1),(0,1)
+
+(1/2,0),(1,1/2),(1,0)
+
+both of these have size 1/8 and a combined size of 1/4. Therefore the size of our satisfying area and the probability is 3/4.
+
+
+
+
+
+### d) max(B,C) <1/2
+
+This is equivalent to B<1/2 and C<1/2. Therefore the probability is 1/2 * 1/2 = 1/4
+
+### e) min(B,C) <1/2
+
+This is equivalent to B<1/2 or C<1/2. Given, P(A) + P(B) - P(A and B) and with the above (d) we know that this 
+
+p(A or B) = p(A)+p(B) -p(A and B) = 
+
+1/2 + 1/2 - 1/4 = 3/4
+
+   
+Github (both PDF and RMarkdown):
+
+https://github.com/chilleundso/Data605_CompMath/tree/master/Homework5
