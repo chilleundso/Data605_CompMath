@@ -1,0 +1,232 @@
+---
+title: "DATA 605 - Homework 6"
+author: "Manolis Manoli"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+---
+```{r loading-libraries, echo=TRUE, results='hide', warning=FALSE, message=FALSE}
+library(ggplot2)
+library(psych)
+library(dplyr)
+library(knitr)
+library(tidyr)
+```
+
+
+
+
+#### 1)
+A box contains 54 red marbles, 9 white marbles, and 75 blue marbles.  If a marble is randomly selected from the box, what is the probability that it is red or blue?  Express your answer as a fraction or a decimal number rounded to four decimal places.
+
+```{r , eval=TRUE, warning=F}
+red = 54
+white = 9
+blue = 75
+total = red + white + blue
+total
+
+redprob = red/total
+redprob # 54/138
+
+whiteprob = white/total
+whiteprob # 9/138
+
+blueprob = blue/total
+blueprob # 75/138
+```
+
+
+#### 2)
+You are going to play mini golf.  A ball machine that contains 19 green golf balls, 20 red golf balls, 24 blue golf balls, and17 yellow golf balls, randomly gives you your ball.  What is the probability that you end up with a red golf ball?  Express your answer as a simplified fraction or a decimal rounded to four decimal places.
+
+```{r , eval=TRUE, warning=F}
+green = 19
+red = 20
+blue = 24
+yellow = 17
+total = green + red + blue + yellow
+total
+
+redprob = red/total
+redprob # 1/4
+
+```
+
+
+
+#### 3)
+A pizza delivery company classifies its customers by gender and location of residence.  The research department has gathered data from a random sample of 1399 customers.  The data is summarized in the table below.
+
+What is the probability that a customer is not male or does not live with parents?  Write your answer as a fraction or a decimal number rounded to four decimal places.
+
+Total amount of clients 1399
+non males (i.e. females) 728
+males living with parents 215
+
+(215+728) / 1399 = 943/1399
+
+
+#### 4)
+
+as long as you work out in the gym the two events should be dependent (A)
+
+#### 5)
+
+A veggie wrap at City Subs is composed of 3 different vegetables and 3 different condiments wrapped up in a tortilla.  If there are 8 vegetables, 7 condiments, and 3 types of tortilla available, how many different veggie wraps can be made?
+
+
+```{r , eval=TRUE, warning=F}
+vegetables = choose(8,3)
+condiments = choose(7,3)
+tortilla = choose(3,1)
+
+vegetables * condiments * tortilla 
+
+```
+
+#### 6)
+
+the two are most likely independent (unless Liz is Jeff's partner and needs to help him :-) ) (B)
+
+
+#### 7)
+
+The newly elected president needs to decide the remaining 8 spots available in the cabinet he/she is appointing. If there
+are 14 eligible candidates for these positions (where rank matters), how many different ways can the members of the
+cabinet be appointed?
+
+Since the rank matters this is a permutation without repetition.Therefore, the approriate formula is:
+
+14!/8! = 14 * 13 * 12 * 11 * 10 * 9 = 2162160
+
+
+#### 8)
+
+A bag contains 9 red, 4 orange, and 9 green jellybeans. What is the probability of reaching into the bag and randomly
+withdrawing 4 jellybeans such that the number of red ones is 0, the number of orange ones is 1, and the number of green
+ones is 3? Write your answer as a fraction or a decimal number rounded to four decimal places.
+
+there are a total of 22c4 = 7315 ways to extract 4 jellybeans
+
+there are 4c1 * 9c3 ways to get the correct colors:
+
+```{r , eval=TRUE, warning=F}
+choose(4,1) * choose(9,3)
+```
+
+the probability is: 336/7315
+
+#### 9)
+
+Evaluate the following expression. 11!/7!
+
+
+```{r , eval=TRUE, warning=F}
+11 * 10 * 9 * 8
+
+```
+
+#### 10)
+
+Describe the complement of the given event.
+67% of subscribers to a fitness magazine are over the age of 34.
+
+33% of subscribers to a fitness magazine are 33 or younger
+
+#### 11)
+
+If you throw exactly three heads in four tosses of a coin you win USD97. If not, you pay me USD30.
+
+Step 1. Find the expected value of the proposition. Round your answer to two decimal places.
+
+there are 4 possible ways to achieve exactly three heads in four tosses and 2^4 possible total outcomes. therefore, the likleihood of winning is 4/16 = 1/4
+
+the expected value therefore is 1/4 * 97 + 3/4 * -30 = 1.75
+
+Step 2. If you played this game 559 times how much would you expect to win or lose? (Losses must be entered as
+negative.)
+
+1.75 * 559 = 978.25
+
+
+#### 12)
+
+Flip a coin 9 times. If you get 4 tails or less, I will pay you USD23. Otherwise you pay me USD26. 
+
+Step 1. Find the expected value of the proposition. Round your answer to two decimal places.
+
+there are 2^9 = 512 ways to flip the coin 9 times.
+4 tails or less means either 
+
+0 tails (9c0) = 1
+
+1 tails (9c1) = 9
+
+2 tails (9c2) = 36
+
+3 tails (9c3) = 84
+
+4 tails (9c4) = 126
+
+sum of that is 256
+
+this means its a 50% chance to win meaning the expected value is 0.5 * - 26 + 0.5 * + 23 = -1.5
+
+Step 2. If you played this game 994 times how much would you expect to win or lose? (Losses must be entered as
+negative.)
+
+-1.5 * 994 = -1491
+
+
+#### 13)
+
+The sensitivity and specificity of the polygraph has been a subject of study and debate for years. A 2001 study of the
+use of polygraph for screening purposes suggested that the probability of detecting a liar was .59 (sensitivity) and that
+the probability of detecting a "truth teller" was .90 (specificity). We estimate that about 20% of individuals selected for
+the screening polygraph will lie.
+
+Sensitivity = P(positive poly | Liar) = .59
+  
+Specificity = P(negative poly | Truth) = .9
+  
+P(Liar) = .2
+
+a. What is the probability that an individual is actually a liar given that the polygraph detected him/her as such? (Show
+me the table or the formulaic solution or both.)
+
+P(Liar | positive poly)
+  
+= P(positive poly | Liar) * P(Liar) / [P(positive poly | Liar) * P(Liar) + P(positive poly | Truth) * P(Truth)]   
+=  .59 * .2 / ( .59 * .2  + .1 * .8 ) = 0.5959
+
+b. What is the probability that an individual is actually a truth-teller given that the polygraph detected him/her as
+such? (Show me the table or the formulaic solution or both.)
+
+P(Truth | negative poly)
+  
+= P(negative poly | Truth) * P(Truth) / [P(negative poly | Liar) * P(Liar) + P(negative poly | Truth) * P(Truth)]   
+=  .9 * .8 / ( .41 * .2  + .9 * .8 ) = 0.8977556
+
+c. What is the probability that a randomly selected individual is either a liar or was identified as a liar by the
+polygraph? Be sure to write the probability statement.
+
+We can split this into to distinct groups / probabilities that we will add together:
+
+1) P(Liar)=.2 
+  
+2) P(Truth|positive poly)
+  
+= P(positive poly | Truth) * P(Truth) / [P(positive poly | Liar) * P(Liar) + P(positive poly | Truth) * P(Truth)] 
+  
+= .1 * .8 / (.59 * .2 + .1 * .8)
+  
+= 0.4040404
+
+Therefore the chance is .60404
+
+   
+Github (both PDF and RMarkdown):
+
+https://github.com/chilleundso/Data605_CompMath/tree/master/Homework6
