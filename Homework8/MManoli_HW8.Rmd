@@ -1,0 +1,133 @@
+---
+title: "DATA 605 - Homework 8"
+author: "Manolis Manoli"
+output:
+  pdf_document:
+    latex_engine: xelatex
+  html_document:
+    df_print: paged
+---
+```{r loading-libraries, echo=TRUE, results='hide', warning=FALSE, message=FALSE}
+library(ggplot2)
+library(psych)
+library(dplyr)
+library(knitr)
+library(tidyr)
+```
+\section{Ex.11 (page 303)}
+
+
+10) Let X 1 , X 2 , ..., X n be n independent random variables each of which has
+an exponential density with mean µ. Let M be the minimum value of the
+X j . Show that the density for M is exponential with mean µ/n. Hint: Use
+cumulative distribution functions.
+
+11) A company buys 100 lightbulbs, each of which has an exponential lifetime of
+1000 hours. What is the expected time for the first of these bulbs to burn
+out? (See Exercise 10.)
+
+Solution:
+
+From 10 we know the mean of the mean of the minimum of n exp densities is the mean of one density divided by n. 
+Therefore, since we have 100 lightbubs each of which has an average life expecancy of 1000hours the minimum (first broken one) will be 1000/100 = 10 hours
+
+\section{Ex.14 (page 303)}
+
+
+Assume that X 1 and X 2 are independent random variables, each having an
+exponential density with parameter $\lambda$. Show that Z = X 1 − X 2 has density
+f Z (z) = (1/2)$\lambda e^{ −\lambda |z|}$  .
+
+Solution:
+
+exponential distribution has density function: $\lambda e^{-\lambda x}$
+
+Z = X + (-Y):
+
+$f_Z(z) = \int_{-\infty}^{\infty} f_{X_1}(x) f_{-X_2}(z-x) dx$
+
+since $f_{-X_2}(z-x) = f_{X_2}(x-z)$
+
+$f_Z(z) = \int_{-\infty}^{\infty} f_{X_1}(x) f_{X_2}(x-z) dx$
+
+First case: z<0
+
+
+we use the exponential distribtion function:
+
+$=\int_{-\infty}^{\infty} \lambda e^{-\lambda x} \lambda e^{-\lambda (x-z)} dx$
+
+since $f_{X_1}(x) = 0$ for $x<0$ we can integrate from 0 to $\infty$
+
+Using exponential calculation rules:
+
+$=\int_{0}^{\infty} \lambda^2 e^{\lambda z - \lambda 2x } dx$
+
+$=[ \frac{\lambda^2}{-2\lambda} e^{\lambda z - \lambda 2x } ]_{0}^{\infty}$
+
+for x going to infinity the expression will go to zero. therefore, we are only left with the the negative term inserting zero into x:
+
+$=-\frac{\lambda^2}{-2\lambda} e^{\lambda z - \lambda 2 *0 } =\frac{\lambda}{2} e^{\lambda z }$
+
+
+Second case: z>0
+
+we use the exponential distribtion function:
+
+$=\int_{-\infty}^{\infty} \lambda e^{-\lambda x} \lambda e^{-\lambda (x-z)} dx$
+
+since $f_{X_2}(x) = 0$ for $x<0$ and in this case we have $f_{X_2}(x-z) = 0$ we can integrate from z to $\infty$
+
+Using exponential calculation rules:
+
+$=\int_{z}^{\infty} \lambda^2 e^{\lambda z - \lambda 2x } dx$
+
+$=[ \frac{\lambda^2}{-2\lambda} e^{\lambda z - \lambda 2x } ]_{z}^{\infty}$
+
+for x going to infinity the expression will go to zero. therefore, we are only left with the the negative term inserting z into x:
+
+$=-\frac{\lambda^2}{-2\lambda} e^{\lambda z - \lambda 2 *z } =\frac{\lambda}{2} e^{-\lambda z }$
+
+in summary:
+
+for z>0:
+$f_Z(z) = \frac{\lambda}{2} e^{-\lambda z }$
+
+for z<0:
+$f_Z(z) = \frac{\lambda}{2} e^{\lambda z }$
+
+Therefore:
+
+$f_Z(z) = \frac{\lambda}{2} e^{- \lambda |z| }$
+
+
+
+\section{Ex.1 (page 320)}
+
+
+Let X be a continuous random variable with mean µ = 10 and variance
+$σ^2 = 100/3$. Using Chebyshev’s Inequality, find an upper bound for the
+following probabilities.
+
+(a) $P(|X − 10| ≥ 2)$.
+(b) $P(|X − 10| ≥ 5)$.
+(c) $P(|X − 10| ≥ 9)$.
+(d) $P(|X − 10| ≥ 20)$.
+
+In general $P(|X-\mu|\ge\epsilon) \le \frac{\sigma^2}{\epsilon^2}$
+
+Solution:
+
+We know $\sigma^2 = 100/3$. Therefore we can find the upper bound by dividing $\sigma^2$ by the various $\epsilon^2$ in each part:
+
+(a) upperbound is: $\frac{\sigma^2}{\epsilon^2} = \frac{100}{3}*\frac{1}{2^2} = \frac{100}{3}*\frac{1}{4} = \frac{25}{3}$
+
+(b) upperbound is: $\frac{\sigma^2}{\epsilon^2} = \frac{100}{3}*\frac{1}{5^2} = \frac{100}{3}*\frac{1}{25} = \frac{100}{75}=\frac{4}{3}$
+
+(c) upperbound is:  $\frac{\sigma^2}{\epsilon^2} = \frac{100}{3}*\frac{1}{9^2} = \frac{100}{3}*\frac{1}{81} = \frac{100}{243}$
+
+(d) upperbound is: $\frac{\sigma^2}{\epsilon^2} = \frac{100}{3}*\frac{1}{20^2} = \frac{100}{3}*\frac{1}{400} = \frac{1}{12}$
+
+Github (both PDF and RMarkdown):
+
+https://github.com/chilleundso/Data605_CompMath/tree/master/Homework8
