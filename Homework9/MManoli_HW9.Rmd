@@ -1,0 +1,139 @@
+---
+title: "DATA 605 - Homework 9"
+author: "Manolis Manoli"
+output:
+  pdf_document:
+    latex_engine: xelatex
+  html_document:
+    df_print: paged
+---
+```{r loading-libraries, echo=TRUE, results='hide', warning=FALSE, message=FALSE}
+library(ggplot2)
+library(psych)
+library(dplyr)
+library(knitr)
+library(tidyr)
+```
+\section{Ex.11 (page 363)}
+
+
+The price of one share of stock in the Pilsdorff Beer Company (see Exer-
+cise 8.2.12) is given by $Y_n$ on the nth day of the year. Finn observes that
+the differences $X_n = Y _{n+1} − Y_n$ appear to be independent random variables
+with a common distribution having mean $\mu = 0$ and variance $\sigma^2 = \frac{1}{4}$. If
+$Y_1$ = 100, estimate the probability that $Y_{365}$ is:
+
+(a) ≥ 100.
+(b) ≥ 110.
+(c) ≥ 120.
+
+
+
+Solution:
+
+```{r,eval=T}
+m = 0
+var = .25
+s = sqrt(var)
+n = 364
+```
+
+
+(a) P($Y_{365}$ ≥ 100):
+
+Since $\mu = 0$ we expect this random walk to equally end above or below the starting value therefore 50/50 chance:
+
+```{r,eval=T}
+x1 <- (100 - 100)/sqrt(n)
+pnorm(x1, m, s, lower.tail = FALSE)
+```
+
+(b) P($Y_{365}$ ≥ 110):
+
+```{r,eval=T}
+x2 <- (110 - 100)/sqrt(n)
+pnorm(x2, m, s, lower.tail = FALSE)
+```
+
+(c) P($Y_{365}$ ≥ 120):
+
+```{r,eval=T}
+x3 <- (120 - 100)/sqrt(n)
+pnorm(x3, m, s, lower.tail = FALSE)
+```
+
+From 10 we know the mean of the mean of the minimum of n exp densities is the mean of one density divided by n. 
+Therefore, since we have 100 lightbubs each of which has an average life expecancy of 1000hours the minimum (first broken one) will be 1000/100 = 10 hours
+
+\section{Problem 2}
+
+Calculate the expected value and variance of the binomial distribution using the moment generating function.
+
+
+Solution:
+
+binomial distribution: ${n \choose k}p^x(1−p)^{n−x}$
+
+moment generating function:
+
+g(t) = $\sum_{j=0}^{n} {n \choose j}p^jq^{n−j} e^{tj}$
+
+g(t) = $\sum_{j=0}^{n} {n \choose j}(pe^t)^jq^{n−j}$
+
+g(t) = $(pe^t+q)^n$ = $(pe^t+(1-p)^n$
+
+derivatives through wolfram alpha:
+
+g'(t) = $npe^t(pe^t−p+1)^{n−1}$
+
+g''(t) = $npe^t(pe^t−p+1)^{n−2}(npe^t−p+1)$
+
+Exp = g'(0) = $npe^0(pe^0−p+1)^{n−1}$ = $np(p−p+1)^{n−1}$ = $np(1)^{n−1}$ = $np$
+
+g''(0) = $npe^0(pe^0−p+1)^{n−2}(npe^0−p+1)$ = 
+$np(p−p+1)^{n−2}(np−p+1)$ = $np(1)^{n−2}(np−p+1)$ = 
+$np(np−p+1)$
+
+Var(X) = $g''(0) - g'(0)^2$ = $np(np−p+1) -(np)^2$ = $(np)^2 - np^2 + np - (np)^2 $
+= $np - np^2$ = $np (1-p)$ 
+
+\section{Problem 3}
+
+Calculate the expected value and variance of the exponential distribution using the moment generating function.
+
+Solution:
+
+exponential distribution: $\lambda e^{-\lambda x} $
+
+moment generating function:
+
+g(t) = $\int_{j=0}^{\infty} \lambda e^{-\lambda j} e^{tj} dj$
+
+g(t) = $\lambda \int_{j=0}^{\infty}  e^{(t-\lambda) j} dj$
+
+g(t) = $\lambda [\frac {e^{(t-\lambda)j}} {(t-\lambda)} ]_{j=0}^{\infty}$
+
+g(t) = $\lambda [\frac {e^{(t-\lambda)j}} {(t-\lambda)} ]_{j=0}^{\infty}$
+
+for $t < \lambda$
+
+
+g(t) = $\lambda (0 - \frac{1}{t-\lambda}) = \frac{\lambda}{\lambda-t}$
+
+g'(t) = $\frac{\lambda}{(\lambda-t)^2}$
+
+g''(t) = $\frac{2 \lambda}{(\lambda-t)^3}$
+
+Exp = $g'(0) =   \frac{\lambda}{(\lambda)^2} = \frac{1}{\lambda}$
+
+g''(0) = $\frac{2 \lambda}{(\lambda)^3} = \frac{2 }{\lambda^2}$
+
+Var = g''(0) - g'(0)^2 = $\frac{2 }{\lambda^2} - (\frac{1}{\lambda})^2 =\frac{1}{\lambda^2}$
+
+
+
+
+
+Github (both PDF and RMarkdown):
+
+https://github.com/chilleundso/Data605_CompMath/tree/master/Homework9
