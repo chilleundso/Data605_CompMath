@@ -1,0 +1,82 @@
+---
+title: "DATA 605 - Homework 11"
+author: "Manolis Manoli"
+output:
+  pdf_document:
+    latex_engine: xelatex
+  html_document:
+    df_print: paged
+---
+```{r loading-libraries, echo=TRUE, results='hide', warning=FALSE, message=FALSE}
+library(ggplot2)
+library(psych)
+library(dplyr)
+library(knitr)
+library(tidyr)
+library(GGally)
+```
+\section{Cars - stopping distance vs speed}
+
+Using the “cars” dataset in R, build a linear model for stopping distance as a function of speed and replicate the analysis of your textbook chapter 3 (visualization, quality evaluation of the model, and residual analysis.)
+
+\section{Solution}
+
+```{r,eval=T}
+data("cars")
+```
+
+\subsection{Visualize the Data}
+
+```{r,eval=T}
+plot(cars$speed,cars$dist, main="Breaking Distance vs Speed",
+xlab="Speed", ylab="Breaking Distance")
+```
+
+As expected, there is a general tendency of increasing distance with increasing speed.
+
+\subsection{The Linear Model Function}
+
+```{r,eval=T}
+attach(cars)
+cars.lm <- lm(dist ~ speed)
+cars.lm
+```
+
+```{r,eval=T}
+plot(speed,dist)
+abline(cars.lm)
+```
+
+
+\subsection{Evaluating the Quality of the Model}
+
+```{r,eval=T}
+summary(cars.lm)
+```
+
+The P-value is very small and R-squared of 65% which in comination would indicate that it's a good fit
+
+\subsection{Residual Analysis}
+
+```{r,eval=T}
+
+ plot(fitted(cars.lm),resid(cars.lm))
+
+```
+
+It seems like there is a little bit of a U shape in the residual. The errors in the middle of the plot seem to be mostly below zero.
+
+
+```{r,eval=T}
+qqnorm(resid(cars.lm))
+qqline(resid(cars.lm))
+```
+
+We can see that the tails are diverging from the line slightly which might indicate slightly fatter tails than that of a normal distribution.
+
+Overall, I would have assumed a quadratic dependency between speed and distance - however I actualyl do not see this very clearly in the plot we have used so far.
+
+
+
+https://github.com/chilleundso/Data605_CompMath/tree/master/Homework11
+
