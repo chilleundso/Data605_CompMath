@@ -1,0 +1,158 @@
+---
+title: "DATA 605 - Homework 11"
+author: "Manolis Manoli"
+output:
+  pdf_document:
+    latex_engine: xelatex
+  html_document:
+    df_print: paged
+---
+```{r loading-libraries, echo=TRUE, results='hide', warning=FALSE, message=FALSE}
+library(ggplot2)
+library(psych)
+library(dplyr)
+library(knitr)
+library(tidyr)
+library(GGally)
+```
+\section{World Health Organisation}
+
+The attached who.csv dataset contains real-world data from 2008.  The variables included follow.
+
+Country:  name of the country
+
+LifeExp:  average life expectancy for the country in years
+
+InfantSurvival:  proportion of those surviving to one year or more
+
+Under5Survival:  proportion of those surviving to five years or more 
+
+TBFree:  proportion of the population without TB.
+
+PropMD:  proportion of the population who are MDs
+
+PropRN:  proportion of the population who are RNs
+
+PersExp:  mean personal expenditures on healthcare in US dollars at average exchange rate 
+
+GovtExp:  mean government expenditures per capita on healthcare, US dollars at average exchange rate
+
+TotExp:  sum of personal and government expenditures.
+
+1.Provide a scatterplot of LifeExp~TotExp, and run simple linear regression.  Do not transform the variables.  Provide and interpret the F statistics, R^2, standard error,and p-values only.  Discuss whether the assumptions of simple linear regression met.
+
+2.Raise life expectancy to the 4.6 power (i.e., LifeExp^4.6).  Raise total expenditures to the 0.06 power (nearly a log transform, TotExp^.06). Plot LifeExp^4.6  as a function of TotExp^.06, and r re-run the simple regression model using the transformed variables.  Provide and interpret the F statistics, R^2, standard error, and p-values.   Which model is "better?"
+
+3.Using the results from 3, forecast life expectancy when TotExp^.06 =1.5.  Then forecast life expectancy when TotExp^.06=2.5.  
+
+4.Build the following multiple regression model and interpret the F Statistics, R^2, standard error, and p-values.  How good is the model?
+
+LifeExp = b0+b1 x PropMd + b2 x TotExp  +b3 x PropMD x TotExp
+
+5.  Forecast LifeExp when PropMD=.03 and TotExp = 14.  Does this forecast seem realistic?  Why or why not?
+
+
+
+\section{Solution}
+
+
+
+```{r,eval=T}
+url = "https://raw.githubusercontent.com/chilleundso/Data605_CompMath/master/Homework12/who.csv"
+df = read.csv(url)
+```
+
+\subsection{Question 1}
+
+1. Provide a scatterplot of LifeExp~TotExp, and run simple linear regression.  Do not transform the variables.  Provide and interpret the F statistics, R^2, standard error,and p-values only.  Discuss whether the assumptions of simple linear regression met.
+
+```{r,eval=T}
+expendVSexpect.lm <- lm(df$LifeExp ~ df$TotExp)
+```
+
+
+```{r,eval=T}
+plot(df$LifeExp ~ df$TotExp,main='Personal and government expenditures vs life expectancy', xlab = 'Personal and Government Expenditures', ylab = 'Life Expectancy')
+abline(expendVSexpect.lm)
+
+```
+
+
+```{r,eval=T}
+summary(expendVSexpect.lm)
+```
+
+Since the p-Value is quite small this model significantly better describes the data than the null hypothesis (average of dependant variable). However looking at the R-squared of 25% we can see that only a quarter of the datas variance is described by the model which is not very satisfying.
+
+
+\subsection{Question 2}
+
+2. Raise life expectancy to the 4.6 power (i.e., LifeExp^4.6).  Raise total expenditures to the 0.06 power (nearly a log transform, TotExp^.06). Plot LifeExp^4.6  as a function of TotExp^.06, and r re-run the simple regression model using the transformed variables.  Provide and interpret the F statistics, R^2, standard error, and p-values.   Which model is "better?"
+
+```{r,eval=T}
+expendVSexpectRAISED.lm <- lm(df$LifeExp^4.6 ~ I(df$TotExp^0.06))
+summary(expendVSexpectRAISED.lm)
+```
+
+We can see tt the R-Squared has gone up to 73%, now explaining a far larger amount of the variability and the F-statistic has gone from  65 to 508, showing that the model has increased in significance versus using the average observations.
+
+
+\subsection{Question 3}
+
+
+3. Using the results from 3, forecast life expectancy when TotExp^.06 =1.5.  Then forecast life expectancy when TotExp^.06=2.5.  
+
+```{r,eval=T}
+coef(expendVSexpectRAISED.lm)
+intercept=coef(expendVSexpectRAISED.lm)[1]
+slope=coef(expendVSexpectRAISED.lm)[2]
+```
+
+life expectancy when TotExp^.06 =1.5
+
+```{r,eval=T}
+(intercept + slope * 1.5)^(1/4.6)
+```
+
+life expectancy when TotExp^.06 =2.5
+
+```{r,eval=T}
+(intercept + slope * 2.5)^(1/4.6)
+```
+
+\subsection{Question 4}
+
+4. Build the following multiple regression model and interpret the F Statistics, R^2, standard error, and p-values.  How good is the model?
+
+LifeExp = b0+b1 x PropMd + b2 x TotExp  +b3 x PropMD x TotExp
+
+
+```{r,eval=T}
+multi.lm <- lm(df$LifeExp ~ df$PropMD + df$TotExp + df$PropMD * df$TotExp)
+summary(multi.lm)
+```
+
+R-squared is less the previous model and with ~35% not very satisfying. The p-value for each variable is below the significance threashold and the model as a whol has a relatively high significance with a p-value: < 2.2e-16.
+
+\subsection{Question 5}
+
+5.  Forecast LifeExp when PropMD=.03 and TotExp = 14.  Does this forecast seem realistic?  Why or why not?
+
+```{r,eval=T}
+coef(multi.lm)
+a=coef(multi.lm)[1]
+b1=coef(multi.lm)[2]
+b2=coef(multi.lm)[3]
+b3=coef(multi.lm)[4]
+PropMD=.03 
+TotExp = 14
+```
+
+```{r,eval=T}
+a + (b1 * PropMD) + (b2 * TotExp) + (b3 * PropMD * TotExp)
+```
+
+Clearly the model is not a great predicter given that an average life expecancy of 108 years is very unrealistic (currently).
+
+https://github.com/chilleundso/Data605_CompMath/tree/master/Homework12
+
