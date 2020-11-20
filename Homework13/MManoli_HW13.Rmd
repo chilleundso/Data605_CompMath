@@ -1,0 +1,172 @@
+---
+title: "DATA 605 - Homework 13"
+author: "Manolis Manoli"
+output:
+  pdf_document:
+    latex_engine: xelatex
+  html_document:
+    df_print: paged
+---
+```{r loading-libraries, echo=TRUE, results='hide', warning=FALSE, message=FALSE}
+library(ggplot2)
+library(psych)
+library(dplyr)
+library(knitr)
+library(tidyr)
+```
+
+\section{Ex.1 - intergration by substitution}
+
+solve $\int 4 e ^{-7x} dx$
+
+Solution:
+
+we chose $u = -7x$ which means $du = -7dx$ and $dx = -\frac{1}{7} du$
+
+$\int 4 e ^{-7x} dx = \int -\frac{4}{7} e ^{u} du =  -\frac{4}{7} e ^{u} + c  =  -\frac{4}{7} e ^{-7x} + c$
+
+\section{Ex.2 - differential equation}
+
+
+Biologists are treating a pond contaminated with bacteria.  The level of contamination is changing at a rate of $\frac{dN}{dt} = - \frac{3150}{t^4} -220$ bacteria per cubic centimeter per day, where t is the number of days since treatment began.  Find a function $ N(t) $ to estimate the level of contamination if the level after 1 day was 6530 bacteria per cubic centimeter.
+
+Solution:
+
+$\frac{dN}{dt} = - \frac{3150}{t^4} -220$
+
+$dN = (- \frac{3150}{t^4} -220) dt$
+
+$\int dN = \int (- \frac{3150}{t^4} -220) dt$
+
+
+$N(t) =  \frac{-3150}{-3t^3} -220t + c$
+
+$N(t) =  \frac{1050}{t^3} -220t + c$
+
+$N(1) =  \frac{1050}{1^3} -220*1 + c = 6530 => c = 6530 - 1050 + 220 = 5700$
+
+$N(t) =  \frac{1050}{t^3} -220t + 5700$
+
+
+
+\section{Ex.3 - intergral approximation}
+
+
+Find the total area of the red rectangles in the figure below, where the equation of the line is  $f (x) = 2x- 9$.
+
+We can simply use geometry ($a*b$) for the size of each box: $1*1 +3*1 + 5*1 + 7*1 = 16$ 
+
+or we can integrate $f (x) = 2x- 9$ from 4.5 to 8.5:
+
+$\int_{4.5}^{8.5}  2x- 9 dx = [x^2 - 9x]_{4.5}^{8.5} = (8.5^2 - 9*8.5) - (4.5^2 - 9*4.5) = 16$
+
+this only works perfectly since f(x) is linear
+
+
+\section{Ex.4 - area between 2 graphs}
+
+Find the area of the region bounded by the graphs of the given equations.
+$y = x^2 - 2x - 2$,
+$y = x + 2$
+
+Solution:
+
+```{r}
+curve(x^2 -2*x-2, -2, 5)
+curve(x+2, add = TRUE, -2,5)
+```
+
+From the graph we can see that the intersects are -1 and 4 which we can double check by inserting these values into the equations:
+
+$x=-1$:
+$y = x^2 - 2x - 2 = 1 +2 -2 = 1$,
+$y = x + 2 = -1 +2 = 1$
+
+$x=4$:
+$y = x^2 - 2x - 2 = 16 -8 -2 = 6$,
+$y = x + 2 = 4 +2 = 6$
+
+Area:
+
+$Area = \int_{-1}^4 x+2 dx -\int_{-1}^4 x^2 -2*x-2 dx$
+
+$=\int_{-1}^4 x+2  -(x^2 -2*x-2 )dx$
+
+$=\int_{-1}^4 x+2  -x^2 +2*x+2 dx$
+
+$=\int_{-1}^4  -x^2 +3*x+4 dx$
+
+$=[ -\frac{1}{3}x^3 +\frac{3}{2}*x^2+4x ]_{-1}^4$
+
+$=18\frac{2}{3} - - 2\frac{1}{6} = 20\frac{5}{6}$
+
+\section{Ex.5 - optimizing storage}
+
+A beauty supply store expects to sell 110 flat irons during the next year.  It costs USD3.75 to store one flat iron for one year.  There is a fixed cost of USD8.25 for each order.  Find the lot size and the number of orders per year that will minimize inventory costs.
+
+Solution:
+
+we assume that the sales happen regularly so that on average storage capacity is half of the order size.
+
+x = number of orders:
+
+cost = $8.25 * x + 3.75 * 110/(2x) = 8.25 * x + 206.25 *x^{-1}$
+
+cost' = $8.25 - 206.25 *x^{-2}$
+
+setting the derivative to zero will give us all minima and maxima of the cost function:
+
+cost' = $8.25 - 206.25 *x^{-2} = 0$
+
+$x^{-2} = \frac{8.25}{206.25}$
+
+$x = \pm \sqrt\frac{206.25}{8.25} = \pm 5$
+
+Since we cannot have negative amount of orders the only possible solution is 5 which means that every order should be 22 flat irons
+
+
+\section{Ex.6 - integration by parts}
+
+Use integration by parts to solve the integral below.
+
+$\int ln(9x) x^6 dx$
+
+Solution:
+
+We chose:
+
+$u = ln(9x)$ and $dv = x^6 dx$
+
+additionally: 
+
+$du = d(ln(9x))/dx = d(ln(9) + ln(x))/dx = d(ln(x))/dx = 1/x dx$
+
+$v = \frac17 x^7$
+
+$\int ln(9x) x^6 dx = ln(9x) * \frac17 x^7 - \int \frac17 x^7 \frac1x dx$
+
+=$ln(9x) * \frac17 x^7 - \frac{x^7}{49} + c$
+
+
+
+\section{Ex.7 - prob density}
+
+Determine whether f (x) is a probability density function on the interval [1, e6].  If not, determine the value of the definite integral.
+
+$f(x) = \frac{1}{6x}$
+
+Solution:
+
+We need to check wether f(x) > 0 and the integral over the interval = 1.
+
+f(x) > 0 for x>0 so only the integral = 1 is left to show:
+
+$\int_1^{e^6} \frac{1}{6x} = [\frac16ln(x)]_1^{e^6} = \frac16ln(e^6) - \frac16ln(1) = 1-0 = 1$
+
+So it does represent a prob density.
+
+
+
+Github (both PDF and RMarkdown):
+
+https://github.com/chilleundso/Data605_CompMath/tree/master/Homework13
