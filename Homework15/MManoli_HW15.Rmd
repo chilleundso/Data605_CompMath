@@ -1,0 +1,163 @@
+---
+title: "DATA 605 - Homework 15"
+author: "Manolis Manoli"
+output:
+  pdf_document:
+    latex_engine: xelatex
+  html_document:
+    df_print: paged
+---
+```{r loading-libraries, echo=TRUE, results='hide', warning=FALSE, message=FALSE}
+library(ggplot2)
+library(psych)
+library(dplyr)
+library(knitr)
+library(tidyr)
+```
+
+\section{1. Regression Line}
+
+Find the equation of the regression line for the given points.  Round any final values to the nearest hundredth, if necessary.( 5.6, 8.8 ), ( 6.3, 12.4 ), ( 7, 14.8 ), ( 7.7, 18.2 ), ( 8.4, 20.8 )
+
+```{r }
+regdata <- matrix(c( 6.3, 12.4 ,  7, 14.8 ,  7.7, 18.2 ,  8.4, 20.8 ),ncol=2,byrow=TRUE)
+colnames(regdata) <- c("X","Y")
+regdf = as.data.frame(regdata)
+```
+
+
+```{r }
+regr = lm(regdf$Y ~ regdf$X)
+summary(regr)
+```
+
+```{r }
+ggplot(regdf, aes(x = X, y = Y)) +
+geom_point() +
+geom_smooth(method='lm', formula= y ~ x )
+```
+
+```{r }
+inter = summary(regr)$coefficients[1,1]
+slope = summary(regr)$coefficients[2,1]
+```
+
+The fitted line has the formula: y = `r round(inter,3)` + `r round(slope,3)` * x
+
+For each function, only consider its valid ranges as indicated in the notes when you are computing the Taylor Series expansion. 
+
+\section{2. Curve Discussion}
+
+Find all local maxima, local minima, and saddle points for the function given below.  Write your answer(s) in the form (x, y, z).  Separate multiple points with a comma. $f(x, y) = 24x - 6xy^2 - 8y^3$
+
+$f(x, y) = 24x - 6xy^2 - 8y^3$
+
+$f_x = 24 - 6y^2$
+
+$f_y = -12xy - 24y^2$
+
+$f_{xx} = 0$
+
+$f_{xy} = -12y$
+
+$f_{yx} = -12y$
+
+$f_{yy} = -12x - 48y$
+
+find where the first derivatives are zero:
+
+$f_x = 24 - 6y^2 = 0$ <=> $6y^2 = 24$  <=> $y^2 = 4$ <=> $y = \pm 2$
+
+we can plug the two solutions into $f_y$.
+
+$y=2$:
+
+$f_y = -24x - 96 = 0$ <=> $24x = -96$  <=> $x = -4$
+
+First point is (-4,2)
+
+$f(-4,2)= -64$
+
+ (-4,2,-64)
+
+$y=-2$:
+
+$f_y = 24x - 96 = 0$ <=> $24x = 96$  <=> $x = 4$
+
+Second point is (4,-2)
+
+$f(4,-2)= 64$
+
+(4,-2,64)
+
+we need to calculate $D=f_{xx}f_{yy}−f_{xy}^2$
+
+Since $f_{xx} = 0$ $D=−f_{xy}^2 = -(-12y)^2$ which is always negative (for non zero y) therefore a sattlepoint:
+
+Sattle-points :  (-4,2,-64) and (4,-2,64)
+
+\section{3. Grocery Store}
+
+A grocery store sells two brands of a product, the "house" brand and a "name" brand.  The manager estimates that if she sells the "house" brand for x dollars and the "name" brand for y dollars, she will be able to sell $81 - 21x + 17y$ units of the "house" brand and $40 + 11x - 23y$ units of the "name" brand.
+
+Step 1
+
+Find the revenue function R(x, y).
+
+$R(x,y)=x(81−21x+17y)+y(40+11x−23y) = 81x+40y−21x^2−23y^2+28xy$
+
+
+Step 2
+
+What is the revenue if she sells the "house" brand for USD 2.30 and the "name" brand for USD 4.10?
+
+```{r }
+
+x = 2.3
+
+y = 4.1
+
+81 * x + 40*y  - 21* x^2  - 23*y^2 + 28 *y*x 
+
+```
+
+\section{4. Cost minimum}
+
+A company has a plant in Los Angeles and a plant in Denver.  The firm is committed to produce a total of 96 units of a product each week.  The total weekly cost is given by $C(x, y) = \frac{1}{6}x^2 + \frac{1}{6}y^2 + 7x + 25y + 700$,  where $x$ is the number of units produced in Los Angeles and $y$ is the number of units produced in Denver. How many units should be produced in each plant to minimize the total weekly cost?
+
+Since we know $x + y = 96$ we can transfor the formula with 2 variables into a formula with 1 substituting y with 96 - x:
+
+$C(x, y) = \frac16x^2 + \frac16 (96-x)^2 + 7x + 25(96-x) + 700$
+
+$= \frac16x^2 + \frac16 (96-x)^2 + 7x + 25(96-x) + 700$
+
+$C'(x, y) = \frac13 x − \frac13(96−x)−18 = \frac23 x −50$ 
+
+Setting this to zero results in x=75
+
+$C''(x, y) =  \frac23$ therefore a minimum
+
+\section{5. Integration}
+
+Evaluate the double integral on the given region.
+
+$\int\int_Re^{(8x + 3y)}dA$ ; $R: 2 \le x \le 4$ and $2\le y  \le 4$
+
+
+Write your answer in exact form without decimals.
+
+$\int\int_R e^{(8x + 3y)}dA = \int\int_R e^{8x} * e^{3y}dA$
+
+Since the respective integrals are finite we can take them apart:
+
+$\int_2^4 e^{8x} dx \int_2^4e^{3y}dy$
+
+$\frac18 [e^{8x}]_2^4 * \frac13[e^{3y}]_2^4$
+
+$\frac1{24} * (e^{32}-e^{16}) * (e^{12}-e^{6})$
+
+$\frac1{24} * (e^{44}-e^{38} - e^{28}+e^{22})$
+
+Github (both PDF and RMarkdown):
+
+https://github.com/chilleundso/Data605_CompMath/tree/master/Homework15
